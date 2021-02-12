@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  rebeliaapp.web:
-    image: ${DOCKER_REGISTRY-}rebeliaapp
-    build:
-      context: .
-      dockerfile: RebeliaApp.Web/Dockerfile
