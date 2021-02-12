@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.808.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebeliaApp.Web", "RebeliaApp.Web\RebeliaApp.Web.csproj", "{CA4D6DB6-742A-463A-BD31-DD3E11411D7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA4D6DB6-742A-463A-BD31-DD3E11411D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4D6DB6-742A-463A-BD31-DD3E11411D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4D6DB6-742A-463A-BD31-DD3E11411D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4D6DB6-742A-463A-BD31-DD3E11411D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C98911A4-5A0D-4A56-9463-1182C59F32EA}
+	EndGlobalSection
+EndGlobal

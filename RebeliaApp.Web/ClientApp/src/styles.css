@@ -1,0 +1,152 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+.navbar a {
+  color: #CECECE;
+}
+
+code {
+  color: #e01a76;
+}
+h3, h4, h5, h6{
+margin-top:10px;
+text-align:center;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+body {
+  color: #CECECE;
+  font-family: 'Roboto', sans-serif;
+  background:#000;
+  
+}
+
+.bluredImg {
+  top: 0px;
+  background: url(/assets/icestorm-b.jpg) center;
+  background-size:cover;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  position:fixed;
+  top:0px;
+  left:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  opacity: 0.3;
+}
+.navbar {
+padding:0;
+}
+.nav-menu {
+  background: #000;
+  color: #CECECE;
+}
+  .nav-menu li:last-child {
+      background: #fff;
+      border-radius:10px;
+      padding:5px;
+      margin:-5px 0 0 30px;
+  }
+    .nav-menu li:last-child a {
+        color:#000;
+    }
+.playerWrapper, .opponentWrapper, .systemWrapper {
+  /*background: #58565B;*/
+  border-radius: 10px;
+  border: 1px solid #6E7072;
+}
+.playerSection h2 {
+  
+}
+
+select, input, .calculatePointsWrapper .btn {
+  height: 40px;
+  background: #747475;
+  color: #CECECE;
+  border: none;
+  border-radius: 10px;
+}
+.calculatePointsWrapper .btn {
+  height: 40px;
+  width:40px;
+  cursor:pointer;
+}
+.calculatePointsWrapper {
+  margin: 0 auto;
+}
+select.systemFont {
+  font-size:30px;
+  text-align:center;
+}
+
+input.labelCount {
+  line-height: 40px;
+  font-size: 30px;
+  width: 100%;
+  margin: 0px !important;
+  /*background: none !important;*/
+}
+ input.labelCount.invalid {
+    border: 2px solid red !important;
+    background: #541A1A !important;
+
+  }
+.playerWrapper p, .opponentWrapper p {
+margin: 10px 0 0 0px;
+}
+div.deathClockBtn.btn {
+  background-image: url(/assets/deathclock.png) !important;
+  background-repeat: no-repeat;
+  background-color: #A0A09F;
+  background-position: center center;
+  background-size: contain;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+  min-width: 50px;
+  width:50%;
+  height: 60px;
+  margin: 0 0 0 0px;
+}
+div.casterKillBtn.btn {
+  background-image: url(/assets/casterkill.png) !important;
+  background-repeat: no-repeat;
+  background-color: #A0A09F;
+  background-position: center center;
+  background-size: contain;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+  min-width: 50px;
+  width: 50%;
+  height: 60px;
+  margin: 0 0px 0 0;
+}
+  div.casterKillBtn.btn:hover, div.deathClockBtn.btn:hover {
+    background-color: white;
+    border: solid 2px #00FBE8;
+  }
+
+.biggerArmyIco {
+  width: 100%;
+  height: 100%;
+  min-width: 100px;
+  min-height: 100px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.smallerArmyIco {
+  width: 40%;
+  height: 40%;
+  bottom: 0px;
+  right: 0px;
+  background-repeat: no-repeat;
+}
+
+ 

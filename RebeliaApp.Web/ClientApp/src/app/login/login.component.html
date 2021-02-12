@@ -1,0 +1,15 @@
+﻿<div class="container center">
+    <div class="">
+        <h1>Login</h1>
+        <p>Email:</p>
+        <input [(ngModel)]="loginCredentials.email" required autofocus placeholder="Email" type="text" />
+        <p>Password:</p>
+        <input [(ngModel)]="loginCredentials.password" required placeholder="Hasło" type="password"/>
+    </div>
+    <div class="">
+        <button (click)="Login()">Zaloguj się</button>
+    </div>
+    <div *ngIf="!formValid" class="">
+        <p>Logowanie nie poprawne. Email lub hasło nie jest zgodne.</p>
+    </div>
+</div>
