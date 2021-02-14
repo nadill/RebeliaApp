@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Army, Theme, PlayerGameScore, FriendlyGameResult, Scenario, MapFormat } from '../../../model/Shared';
 import { InfinityService } from '../../../providers/infinity.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AccountService } from '../../../providers/account.service';
 
 @Component({
   selector: 'add-infinity-component',
@@ -90,7 +92,7 @@ export class AddInfinityComponent implements OnInit {
   };
 
 
-  constructor(private infinityService: InfinityService) {
+  constructor(private infinityService: InfinityService, private accountService: AccountService) {
 
   }
 
@@ -115,9 +117,14 @@ export class AddInfinityComponent implements OnInit {
 
       this.ArmyChanged(this.armies[0].armyID, "player1");
       this.ArmyChanged(this.armies[0].armyID, "player2");
-    }, error => console.error(error));
+    });
 
     this.infinityService.GetInfinityScenarios().subscribe(result => this.scenarios = result, error => console.error(error));
+    let user = this.accountService.GetUserTokenInfo();
+
+    this.playerScore.player1.playerID = user.playerID;
+    this.playerScore.player1.playerName = user.firstName + ' "' + user.nick + '" ' + user.lastName;
+
   }
 
   private ArmyChanged(selectedID:number, player: string): void {
@@ -151,6 +158,22 @@ export class AddInfinityComponent implements OnInit {
   private ThemeChanged(selectedID: number, player: string): void {
     this.themeImg[player] = (selectedID == 0) ? 'none' : "url(/assets/infinity-icons/" + this.themes.find(t => t.themeID == selectedID).themeImage + ".svg)";
     this.playerScore[player].themeID = selectedID;
+  }
+
+  private SubmitResult() {
+    if (this.playerScore.player1.objectivePoints > this.playerScore.player2.objectivePoints) {
+      this.battleResult.winnerID = this.playerScore.player1.playerID;
+    } else if (this.playerScore.player1.objectivePoints < this.playerScore.player2.objectivePoints) {
+      this.battleResult.winnerID = this.playerScore.player2.playerID;
+    } else {
+      this.battleResult.winnerID = 0;
+    }
+    this.battleResult.date = Date.now();
+    this.battleResult.gameSystemID = 1;
+    this.battleResult.player1Result = this.playerScore.player1;
+    this.battleResult.player2Result = this.playerScore.player2;
+
+   
   }
 
 

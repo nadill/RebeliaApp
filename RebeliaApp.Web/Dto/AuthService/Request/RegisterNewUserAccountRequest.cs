@@ -1,5 +1,5 @@
 ﻿using System;
-namespace RebeliaApp.Web.Dto.AccountService.Request
+namespace RebeliaApp.Web.Dto.AuthService.Request
 {
     public class RegisterNewUserAccountRequest
     {

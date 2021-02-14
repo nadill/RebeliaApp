@@ -5,7 +5,9 @@ namespace RebeliaApp.Web.Dto.Shared
 {
     public abstract class ResponseBase
     {
-        public RESPONSE_CODE ResponseCode { get; set; }
+        public ResponseCode ResponseCode { get; set; }
+        public bool Success { get; set; }
+        public string Header { get; set; }
         public string Message { get; set; }
     }
 }

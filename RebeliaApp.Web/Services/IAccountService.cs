@@ -10,8 +10,8 @@ namespace RebeliaApp.Web.Services
     {
         Task<GetUserAccountResponse> GetAccountById(int accountId);
         Task<GetAllUserAccountsResponse> GetAllAccounts();
-        Task<LogInUserResponse> LoginToUserAccount(LogInUserRequest request);
-        Task<RegisterNewUserAccountRespose> RegisterNewUserAccount(RegisterNewUserAccountRequest request);
+        Task<GetAllUserAccountsResponse> GetAllAccountsExceptLoggedUser(int userId);
+
 
     }
 }

@@ -64,6 +64,9 @@
     <Folder Include="Dto\AuthService\" />
     <Folder Include="Dto\AuthService\Request\" />
     <Folder Include="Dto\AuthService\Response\" />
+    <Folder Include="Dto\InfinityService\" />
+    <Folder Include="Dto\InfinityService\Request\" />
+    <Folder Include="Dto\InfinityService\Response\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="angular-material-app\.editorconfig" />

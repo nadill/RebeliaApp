@@ -23,43 +23,44 @@ namespace RebeliaApp.Web.Controllers
             gameDataService = _gameDataService;
         }
 
-        [HttpGet("GetInfinityArmies")]
-        public async Task<IActionResult> GetInfinityArmies() {
-            return Ok(await gameDataService.GetInfinityArmies());
-        }
 
         [HttpGet("GetWarmachineArmies")]
+        [Authorize]
         public async Task<IActionResult> GetWarmachineHordesArmies()
         {
             return Ok(await gameDataService.GetWarmachineHordesArmies());
         }
 
         [HttpGet("GetAllGameSystems")]
+        [Authorize]
         public async Task<IActionResult> GetAllGameSystems()
         {
             return Ok(await gameDataService.GetAllGameSystems());
         }
 
         [HttpPost("AddInfinityMissions")]
+        [Authorize]
         public async Task<IActionResult> AddInfinityMissions()
         {
             return Ok(await gameDataService.AddInfinityMissions());
         }
+
         [HttpPost("AddInfinityThemes")]
+        [Authorize]
         public async Task<IActionResult> AddInfinityThemes()
         {
             return Ok(await gameDataService.AddInfinityThemes());
         }
+
         [HttpPost("AddInfinityArmies")]
+        [Authorize]
         public async Task<IActionResult> AddInfinityArmies()
         {
             return Ok(await gameDataService.AddInfinityArmies());
         }
-        [HttpGet("GetInfinityScenarios")]
-        public async Task<IActionResult> GetInfinityScenarios() {
-            return Ok(await gameDataService.GetInfinityScenarios());
-        }
+
         [HttpPost("AddInfinityMapFormats")]
+        [Authorize]
         public async Task<IActionResult> AddInfinityMapFormats() {
             return Ok(await gameDataService.AddInfinityMapFormats());
         }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -12,10 +13,14 @@ import { AddInfinityComponent } from './add-battle/infinity/infinity.component';
 import { LoginComponent } from './login/login.component';
 import { log } from 'util';
 
-// Service Providers;
+// Service Providers/
 import { AccountService } from '../providers/account.service';
 import { InfinityService } from '../providers/infinity.service';
+import { AuthService } from '../providers/auth.service';
 
+export function tokenGetter() {
+  return localStorage.getItem("userToken");
+}
 
 @NgModule({
   declarations: [
@@ -31,14 +36,21 @@ import { InfinityService } from '../providers/infinity.service';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'add-battle', component: AddBattleComponent },
-      { path: 'add-battle/infinity', component: AddInfinityComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthService] },
+      { path: 'add-battle', component: AddBattleComponent, canActivate: [AuthService]},
+      { path: 'add-infinity', component: AddInfinityComponent, canActivate: [AuthService]},
       { path: 'login', component: LoginComponent },
-    ])
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5001"],
+        blacklistedRoutes: []
+      }
+    })
 
   ],
-  providers: [AccountService, InfinityService],
+  providers: [AccountService, InfinityService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,44 +1,38 @@
 <header class="nav-menu">
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm mb-3"
-  >
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3" >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']"><img class="rebelkeeper-logo" src="/assets/rebelkeeper1.jpg" style="width:200px"/></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
-          <ul class="navbar-nav flex-grow">
-              <li class="nav-item"
-                  [routerLinkActive]="['link-active']"
-                  [routerLinkActiveOptions]="{ exact: true }">
-                  <a class="nav-link" [routerLink]="['/']">Start</a>
+      
+      <div class="" *ngIf="isUserAuth">
+          <ul class="main-nav">
+              
+              <li class="" [routerLinkActive]="['link-active']">
+                  <a class="" [routerLink]="['/ranking']">Ranking</a>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                  <a class="nav-link" [routerLink]="['/ranking']">Ranking</a>
+              <li class="" [routerLinkActive]="['link-active']">
+                  <a class="" [routerLink]="['/tournament']">Turnieje</a>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                  <a class="nav-link" [routerLink]="['/my-battles']">Moje Bitwy</a>
+              <li class="dropdown" [routerLinkActive]="['link-active']">
+                  Profil
+                   <ul class="">
+                      <li class="" [routerLinkActive]="['link-active']">
+                          <a class="" [routerLink]="['/my-battles']">Moje Bitwy</a>
+                      </li>
+                      <li class="" (click)="Logout()">
+                          Wyloguj
+                      </li>
+                  </ul>
               </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                  <a class="nav-link" [routerLink]="['/tournament']">Turnieje Rebelii</a>
-              </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                  <a class="nav-link" [routerLink]="['/profile']">Profil</a>
-              </li>
-              <li class="nav-item" [routerLinkActive]="['link-active']">
-                  <a class="nav-link" [routerLink]="['/add-battle']"><b>Zapisz bitwę!</b></a>
+              <li class="dropdown" [routerLinkActive]="['link-active']">
+                  <b>Zapisz wynik!</b>
+                  <ul>
+                      <li class="" [routerLinkActive]="['link-active']">
+                          <a class="" [routerLink]="['/add-warmachine']">Warmachine</a>
+                      </li>
+                      <li class="" [routerLinkActive]="['link-active']">
+                          <a class="" [routerLink]="['/add-infinity']">Infinity</a>
+                      </li>
+                  </ul>
               </li>
           </ul>
       </div>

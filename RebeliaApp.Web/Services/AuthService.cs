@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RebeliaApp.Web.Dto.AccountService.Request;
+using RebeliaApp.Web.Dto.AccountService.Response;
 using RebeliaApp.Web.Dto.AuthService.Request;
 using RebeliaApp.Web.Dto.AuthService.Response;
 using RebeliaApp.Web.Model;
@@ -55,21 +57,46 @@ namespace RebeliaApp.Web.Services
                 string tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                 var response = new UserLoginResponse {
-                    ResponseCode = RESPONSE_CODE.SUCCESS,
-                    Message = "Login successful",
-                    tokenString = tokenString
+                    ResponseCode = ResponseCode.SUCCESS,
+                    Header = "Login successful",
+                    Message = "",
+                    tokenString = tokenString,
+                    Success = true
                 };
                 return response;
             }
             else {
                 var response = new UserLoginResponse
                 {
-                    ResponseCode = RESPONSE_CODE.VALIDATION_ERROR,
-                    Message = "Invalid email or password",
-                    tokenString = null
+                    ResponseCode = ResponseCode.VALIDATION_ERROR,
+                    Header = "Invalid email or password",
+                    tokenString = null,
+                    Success = false
                 };
                 return response;
             }
         }
+
+        public async Task<RegisterNewUserAccountRespose> Register(RegisterNewUserAccountRequest request)
+        {
+            var requestMapped = mapper.Map<Player>(request);
+            bool accountExists = await dbContext.Players.Where(x => x.Email == requestMapped.Email).AnyAsync();
+
+            if (accountExists)
+            {
+                var responseMapped = new RegisterNewUserAccountRespose { Message = "Account already exists", ResponseCode = ResponseCode.VALIDATION_ERROR };
+                return responseMapped;
+            }
+            else
+            {
+                var response = await dbContext.Players.AddAsync(requestMapped);
+                var responseMapped = mapper.Map<RegisterNewUserAccountRespose>(response);
+                responseMapped.Message = "Account created";
+                responseMapped.ResponseCode = ResponseCode.SUCCESS;
+                return responseMapped;
+            }
+
+        }
+
     }
 }

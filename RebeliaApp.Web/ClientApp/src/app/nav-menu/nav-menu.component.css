@@ -16,3 +16,36 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+nav ul.main-nav li {
+  float: left;
+  margin: 0px;
+  list-style: none;
+  min-width: 110px;
+  min-height:30px;
+  padding: 15px 10px;
+  cursor:pointer;
+  position:relative;
+}
+ nav ul.main-nav li:hover {
+    background: #454545;
+  }
+nav ul li.dropdown ul {
+  padding: 0px;
+  display: none;
+  position:absolute;
+  background:#000;
+  left:0px;
+  top:50px;
+  
+}
+nav ul li.dropdown:hover ul {
+  padding: 0px;
+  display: block;
+  width:100%;
+}
+nav li ul li {
+    float:initial;
+    cursor:pointer;
+}
+

@@ -16,8 +16,7 @@ namespace RebeliaApp.Web.Model
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Scenario> Scenario { get; set; }
         public DbSet<MapFormat> MapFormat { get; set; }
-
-
+        public DbSet<PlayerScore> PlayerScores { get; set; }
 
         public RebeliaDBContext(DbContextOptions<RebeliaDBContext> options) : base(options)
         {

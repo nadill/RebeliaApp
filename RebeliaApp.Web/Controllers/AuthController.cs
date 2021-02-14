@@ -10,7 +10,7 @@ using RebeliaApp.Web.Services;
 namespace RebeliaApp.Web.Controllers
 {
     [ApiController]
-    [Route("Api/[controller]Endpoint")]
+    [Route("Api/AuthEndpoint")]
     public class AuthController : ControllerBase
     {
         public IAuthService authService { get; set; }

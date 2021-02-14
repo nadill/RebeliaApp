@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RebeliaApp.Web.Model.Enums;
@@ -18,7 +18,7 @@ namespace RebeliaApp.Web.Model
         public int ArmyPoints { get; set; }
         public int PointSize { get; set; }
         public int Rounds { get; set; }
-        public DEFEATED_BY DefetedBy { get; set; }
+        public WinCondition DefetedBy { get; set; }
         [ForeignKey("SystemID")]
         public virtual GameSystem System { get; set; }
         [ForeignKey("ArmyID")]
@@ -27,7 +27,7 @@ namespace RebeliaApp.Web.Model
         public virtual Theme Theme { get; set; }
         [MaxLength(100)]
         public string ScenarioName { get; set; }
-        public BATTLE_RESULT BattleResult { get; set; }
+        public BattleResult BattleResult { get; set; }
         public bool Bye { get; set; }
     }
 }

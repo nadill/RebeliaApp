@@ -18,6 +18,6 @@ namespace RebeliaApp.Web.Model
         [MaxLength(100)]
         public string ArmyImage { get; set; }
         [ForeignKey("ArmyID")]
-        public List<Caster> CasterList { get; set; }
+        public virtual List<Caster> CasterList { get; set; }
     }
 }

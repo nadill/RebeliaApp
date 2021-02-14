@@ -35,49 +35,10 @@ namespace RebeliaApp.Web.Services
             return responseMapped;
         }
 
-        public async Task<LogInUserResponse> LoginToUserAccount(LogInUserRequest request) {
-            var requestMapped = mapper.Map<Player>(request);
-
-            bool accountExists = await dbContext.Players.Where(p => p.Email == requestMapped.Email && p.Password == requestMapped.Password).AnyAsync();
-            if (accountExists) {
-                var response = await dbContext.Players.Where(p => p.Email == requestMapped.Email && p.Password == requestMapped.Password).SingleAsync();
-                var responseMapped = mapper.Map<LogInUserResponse>(response);
-                responseMapped.ResponseCode = RESPONSE_CODE.SUCCESS;
-                responseMapped.Message = "Login succesfull";
-                responseMapped.Account = new UserAccount {
-                    PlayerID = response.PlayerID,
-                    FirstName = response.FirstName,
-                    LastName = response.LastName,
-                    Nick = response.Nick
-                };
-                return responseMapped;
-            }
-            else {
-                var responseMapped = new LogInUserResponse {
-                    ResponseCode = RESPONSE_CODE.VALIDATION_ERROR,
-                    Message = "Incorrect email or password",
-                    Account = null
-                };
-                return responseMapped;
-            }
-        }
-
-        public async Task<RegisterNewUserAccountRespose> RegisterNewUserAccount(RegisterNewUserAccountRequest request) {
-            var requestMapped = mapper.Map<Player>(request);
-            bool accountExists = await dbContext.Players.Where(x => x.Email == requestMapped.Email).AnyAsync();
-
-            if (accountExists) {
-                var responseMapped = new RegisterNewUserAccountRespose { Message = "Account already exists", ResponseCode = RESPONSE_CODE.VALIDATION_ERROR };
-                return responseMapped;
-            }
-            else {
-                var response = await dbContext.Players.AddAsync(requestMapped);
-                var responseMapped = mapper.Map<RegisterNewUserAccountRespose>(response);
-                responseMapped.Message = "Account created";
-                responseMapped.ResponseCode = RESPONSE_CODE.SUCCESS;
-                return responseMapped;
-            }
-
+        public async Task<GetAllUserAccountsResponse> GetAllAccountsExceptLoggedUser(int accountId) {
+            var response = await dbContext.Players.Where(x => x.PlayerID != accountId).ToListAsync();
+            var responseMapped = mapper.Map<GetAllUserAccountsResponse>(response);
+            return responseMapped;
         }
     }
 }

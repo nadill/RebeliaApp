@@ -6,7 +6,6 @@ namespace RebeliaApp.Web.Services
 {
     public interface IWarmachineService
     {
-        Task<List<Theme>> GetWarmachineThemes();
         Task<List<Army>> GetWarmachineArmies();
         Task<List<Scenario>> GetWarmachineScenarios();
 
