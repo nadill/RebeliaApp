@@ -67,6 +67,8 @@
     <Folder Include="Dto\InfinityService\" />
     <Folder Include="Dto\InfinityService\Request\" />
     <Folder Include="Dto\InfinityService\Response\" />
+    <Folder Include="ClientApp\src\app\components\" />
+    <Folder Include="ClientApp\src\app\components\spinner\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="angular-material-app\.editorconfig" />

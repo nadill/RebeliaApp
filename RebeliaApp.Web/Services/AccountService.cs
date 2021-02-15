@@ -37,7 +37,10 @@ namespace RebeliaApp.Web.Services
 
         public async Task<GetAllUserAccountsResponse> GetAllAccountsExceptLoggedUser(int accountId) {
             var response = await dbContext.Players.Where(x => x.PlayerID != accountId).ToListAsync();
-            var responseMapped = mapper.Map<GetAllUserAccountsResponse>(response);
+            var responseMapped = new GetAllUserAccountsResponse {
+                AccountList = mapper.Map<List<UserAccount>>(response)
+            };
+
             return responseMapped;
         }
     }

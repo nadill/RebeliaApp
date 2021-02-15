@@ -4,6 +4,7 @@ using RebeliaApp.Web.Dto.AccountService.Request;
 using RebeliaApp.Web.Dto.AccountService.Response;
 using RebeliaApp.Web.Dto.AuthService.Request;
 using RebeliaApp.Web.Dto.AuthService.Response;
+using RebeliaApp.Web.Dto.Shared;
 using RebeliaApp.Web.Model;
 
 namespace RebeliaApp.Web.Mapper
@@ -14,7 +15,8 @@ namespace RebeliaApp.Web.Mapper
         {
             CreateMap<UserLoginRequest, Player>();
             CreateMap<Player, UserLoginResponse>();
-
+            CreateMap<Player, UserAccount>();
+            CreateMap<UserAccount, Player> ();
         }
     }
 }

@@ -9,7 +9,6 @@ namespace RebeliaApp.Web.Model
         public class RebeliaDBContext : DbContext
     {
         public DbSet<FriendlyGameResult> FriendlyGameResults { get; set; }
-        public DbSet<TournamentSoloGameResult> TournamentSoloGameResults { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<GameSystem> GameSystems { get; set; }
         public DbSet<Army> Armies { get; set; }

@@ -1,15 +1,30 @@
-﻿<div class="container center">
-    <div class="">
-        <h1>Login</h1>
-        <p>Email:</p>
-        <input [(ngModel)]="loginCredentials.email" required autofocus placeholder="Email" type="text" />
-        <p>Password:</p>
-        <input [(ngModel)]="loginCredentials.password" required placeholder="Hasło" type="password"/>
+﻿<div class="col-xl-4 col-lg-4 col-md-6 col-sm-8 col-12 center container">
+    <h1 class="header">Zaloguj się</h1>
+
+    <div class="container center boxContainer ">
+        <div class="center col">
+            <div class="row my-3">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 pt-2">
+                    <p>Email:</p>
+                </div>
+                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                    <input [(ngModel)]="loginCredentials.email" required autofocus type="text" />
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3 pt-2">
+                    <p>Hasło:</p>
+                </div>
+                <div class="col-9">
+                    <input [(ngModel)]="loginCredentials.password" required type="password" />
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!dataLoaded"><spinner></spinner></div>
+        <div *ngIf="!formValid" class="center error">
+            <p>Logowanie nie poprawne. <br />Email lub hasło nie jest zgodne.</p>
+        </div>
+
+        <button [ngClass]="{'activeBtn': dataLoaded, 'inactiveBtn': !dataLoaded }" class="container center" (click)="Login()">Zaloguj się</button>
     </div>
-    <div class="">
-        <button (click)="Login()">Zaloguj się</button>
     </div>
-    <div *ngIf="!formValid" class="">
-        <p>Logowanie nie poprawne. Email lub hasło nie jest zgodne.</p>
-    </div>
-</div>

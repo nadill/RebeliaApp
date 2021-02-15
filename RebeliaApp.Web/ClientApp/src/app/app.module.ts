@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { AddBattleComponent } from './add-battle/add-battle.component';
 import { AddInfinityComponent } from './add-battle/infinity/infinity.component';
 import { LoginComponent } from './login/login.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+
 import { log } from 'util';
 
 // Service Providers/
@@ -30,6 +32,8 @@ export function tokenGetter() {
     LoginComponent,
     AddBattleComponent,
     AddInfinityComponent,
+    SpinnerComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

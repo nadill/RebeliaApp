@@ -37,6 +37,7 @@ nav ul li.dropdown ul {
   background:#000;
   left:0px;
   top:50px;
+  z-index:1;
   
 }
 nav ul li.dropdown:hover ul {

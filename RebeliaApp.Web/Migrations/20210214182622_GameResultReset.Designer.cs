@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RebeliaApp.Web.Model;
 
 namespace RebeliaApp.Web.Migrations
 {
     [DbContext(typeof(RebeliaDBContext))]
-    partial class RebeliaDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210214182622_GameResultReset")]
+    partial class GameResultReset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -222,8 +224,6 @@ namespace RebeliaApp.Web.Migrations
 
                     b.HasKey("PlayerScoreID");
 
-                    b.HasIndex("GameID");
-
                     b.ToTable("PlayerScores");
                 });
 
@@ -303,15 +303,6 @@ namespace RebeliaApp.Web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RebeliaApp.Web.Model.PlayerScore", b =>
-                {
-                    b.HasOne("RebeliaApp.Web.Model.FriendlyGameResult", null)
-                        .WithMany("PlayerList")
-                        .HasForeignKey("GameID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RebeliaApp.Web.Model.Scenario", b =>
                 {
                     b.HasOne("RebeliaApp.Web.Model.GameSystem", null)
@@ -335,11 +326,6 @@ namespace RebeliaApp.Web.Migrations
                     b.Navigation("ArmyThemes");
 
                     b.Navigation("CasterList");
-                });
-
-            modelBuilder.Entity("RebeliaApp.Web.Model.FriendlyGameResult", b =>
-                {
-                    b.Navigation("PlayerList");
                 });
 
             modelBuilder.Entity("RebeliaApp.Web.Model.GameSystem", b =>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RebeliaApp.Web.Model;
 
 namespace RebeliaApp.Web.Migrations
 {
     [DbContext(typeof(RebeliaDBContext))]
-    partial class RebeliaDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210214183328_GameResultReset2")]
+    partial class GameResultReset2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

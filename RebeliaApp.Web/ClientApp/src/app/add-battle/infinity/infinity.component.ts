@@ -5,6 +5,9 @@ import { Army, Theme, PlayerGameScore, FriendlyGameResult, Scenario, MapFormat }
 import { InfinityService } from '../../../providers/infinity.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from '../../../providers/account.service';
+import { UserAccount } from '../../../model/Shared/UserAccount';
+
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'add-infinity-component',
@@ -16,6 +19,12 @@ export class AddInfinityComponent implements OnInit {
   public themes: Theme[] = [];
   public scenarios: Scenario[] = [{ scenarioID: 0, scenarioName: "", scenarioFormats: [{ mapID: 0, smallFormat: "", mediumFormat: "", standardFormat: "" }] }];
   public scenarioImgUrl: string = "none";
+  public playersList: UserAccount[] = [];
+  private spinnerModel = {
+    armies: false,
+    scenarios: false,
+    players: false
+  }
   
   public playerScore: {
     player1: PlayerGameScore,
@@ -117,13 +126,23 @@ export class AddInfinityComponent implements OnInit {
 
       this.ArmyChanged(this.armies[0].armyID, "player1");
       this.ArmyChanged(this.armies[0].armyID, "player2");
+
+      this.spinnerModel.armies = true;
     });
 
-    this.infinityService.GetInfinityScenarios().subscribe(result => this.scenarios = result, error => console.error(error));
+    this.infinityService.GetInfinityScenarios().subscribe(result => {
+      this.scenarios = result;
+      this.spinnerModel.scenarios = true;
+    }, error => console.error(error));
     let user = this.accountService.GetUserTokenInfo();
 
     this.playerScore.player1.playerID = user.playerID;
     this.playerScore.player1.playerName = user.firstName + ' "' + user.nick + '" ' + user.lastName;
+
+    this.accountService.GetAllAccountsExceptLoggedUser().subscribe(users => {
+      this.playersList = this.playersList.concat(users.accountList);
+      this.spinnerModel.players = true;
+    });
 
   }
 

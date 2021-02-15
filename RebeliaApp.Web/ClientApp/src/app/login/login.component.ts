@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   public loginCredentials: UserLoginRequest = { email: '', password: '' };
   formValid: boolean = true;
+  dataLoaded: boolean= true;
 
   constructor(private router: Router, private authService: AuthService) {
   }
@@ -24,7 +25,10 @@ export class LoginComponent implements OnInit {
   }
 
   Login(): void {
+    this.dataLoaded = false;
+    this.formValid = true;
     let userResponse = this.authService.LoginToUserAccount(this.loginCredentials).subscribe(result => {
+      this.dataLoaded= true;
       if (result.responseCode == ResponseCode.SUCCESS) {
         localStorage.setItem("userToken", result.tokenString);
         this.router.navigateByUrl("/");

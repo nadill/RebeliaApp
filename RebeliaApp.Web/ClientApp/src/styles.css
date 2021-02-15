@@ -16,14 +16,13 @@ text-align:center;
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
-  border-color: #1861ac;
+  border-color: #303844;
 }
 
 body {
-  color: #CECECE;
+  color: #a3b1c7;
   font-family: 'Roboto', sans-serif;
-  background:#000;
-  
+  background: #303844;
 }
 
 .bluredImg {
@@ -57,21 +56,47 @@ padding:0;
  .nav-menu li:last-child a {
         /*color:#000;*/
   }
-.playerWrapper, .opponentWrapper, .systemWrapper {
-  /*background: #58565B;*/
-  border-radius: 10px;
-  border: 1px solid #6E7072;
+.playerWrapper, .opponentWrapper, .systemWrapper, .boxContainer{
+  background: #434e5f;
+  border-top: 1px solid #637288;
+  box-shadow: 0px 10px 10px #29313e;
+  border-radius: 0px 20px;
 }
-.playerSection h2 {
-  
+.header {
+  font-size:20px;
+}
+.error {
+  color: white;
+  background-color: #7B3743;
+  padding: 10px;
+}
+login input {
+width:100%;
+padding:10px;
 }
 
-select, input, .calculatePointsWrapper .btn {
+select, input,.calculatePointsWrapper .btn, input:focus {
   height: 40px;
-  background: #747475;
+  background: #556173;
   color: #CECECE;
   border: none;
-  border-radius: 10px;
+  border-top: 1px solid #6a7a92;
+  border-radius: 0px 20px;
+  outline-style:none;
+}
+select {
+  text-indent:20px;
+}
+select:hover {
+    cursor:pointer;
+}
+input[type=number] {
+  -webkit-appearance:textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .calculatePointsWrapper .btn {
   height: 40px;
@@ -85,7 +110,31 @@ select.systemFont {
   font-size:30px;
   text-align:center;
 }
-
+.activeBtn, .activeBtn:focus {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  background: #43884c;
+  color: #fff;
+  padding: 15px;
+  text-transform: uppercase;
+  border-top: 1px solid #6ac576;
+  border-radius:0px 20px;
+  outline-style:none;
+}
+.inactiveBtn, .inactiveBtn:focus {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  background: #43884c;
+  color: #fff;
+  padding: 15px;
+  text-transform: uppercase;
+  border-top: 1px solid #6ac576;
+  border-radius: 0px 20px;
+  outline-style: none;
+  opacity:0.3;
+}
 input.labelCount {
   line-height: 40px;
   font-size: 30px;
@@ -142,10 +191,10 @@ div.casterKillBtn.btn {
   background-position: center center;
 }
 .smallerArmyIco {
-  width: 40%;
-  height: 40%;
+  width: 50%;
+  height: 50%;
   bottom: 0px;
-  right: 0px;
+  right: -20px;
   background-repeat: no-repeat;
 }
 

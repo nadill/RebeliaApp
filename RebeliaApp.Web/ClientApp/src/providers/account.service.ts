@@ -2,6 +2,7 @@ import { Injectable, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from '@angular/common/http';
 import { UserAccount } from "../model/Shared/UserAccount";
+import { GetAllAccountsResponse } from '../model/Response/GetAllAccountsResponse';
 import jwt_decode from "jwt-decode";
 
 @Injectable()
@@ -31,16 +32,16 @@ export class AccountService {
     return user;
   }
 
-  GetAllAccounts(): Observable<UserAccount[]> {
+  GetAllAccounts(): Observable<GetAllAccountsResponse> {
     let userAccounts = this.http.get(this.baseUrl + 'Api/AccountEndpoint/GetAllAccounts');
-    return userAccounts as Observable<UserAccount[]>;
+    return userAccounts as Observable<GetAllAccountsResponse>;
   }
 
-  GetAllAccountsExceptLoggedUser(): Observable<UserAccount[]> {
+  GetAllAccountsExceptLoggedUser(): Observable<GetAllAccountsResponse> {
     let userData: UserAccount = this.GetUserTokenInfo();
 
     let userAccounts = this.http.get(this.baseUrl + 'Api/AccountEndpoint/GetAllAccountsExceptLoggedUser/' + userData.playerID);
-    return userAccounts as Observable<UserAccount[]>;
+    return userAccounts as Observable<GetAllAccountsResponse>;
   }
 
 }

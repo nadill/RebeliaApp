@@ -8,26 +8,6 @@ namespace RebeliaApp.Web.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "FriendlyGameResults",
-                columns: table => new
-                {
-                    GameID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PointFormat = table.Column<int>(type: "int", nullable: false),
-                    Rounds = table.Column<int>(type: "int", nullable: false),
-                    SystemID = table.Column<int>(type: "int", nullable: false),
-                    ScenarioID = table.Column<int>(type: "int", nullable: false),
-                    WinnerID = table.Column<int>(type: "int", nullable: false),
-                    CastrKill = table.Column<bool>(type: "bit", nullable: false),
-                    DeathClock = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FriendlyGameResults", x => x.GameID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GameSystems",
                 columns: table => new
                 {
@@ -58,29 +38,7 @@ namespace RebeliaApp.Web.Migrations
                     table.PrimaryKey("PK_Players", x => x.PlayerID);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "PlayerScore",
-                columns: table => new
-                {
-                    PlayerID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GameID = table.Column<int>(type: "int", nullable: false),
-                    ArmyID = table.Column<int>(type: "int", nullable: false),
-                    ThemeID = table.Column<int>(type: "int", nullable: false),
-                    CasterID = table.Column<int>(type: "int", nullable: false),
-                    ObjectivePoints = table.Column<int>(type: "int", nullable: false),
-                    ArmyPoints = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlayerScore", x => x.PlayerID);
-                    table.ForeignKey(
-                        name: "FK_PlayerScore_FriendlyGameResults_GameID",
-                        column: x => x.GameID,
-                        principalTable: "FriendlyGameResults",
-                        principalColumn: "GameID",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            
 
             migrationBuilder.CreateTable(
                 name: "Armies",
@@ -189,56 +147,6 @@ namespace RebeliaApp.Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TournamentSoloGameResults",
-                columns: table => new
-                {
-                    GameID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BattleID = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PlayerID = table.Column<int>(type: "int", nullable: true),
-                    TournamentPoints = table.Column<int>(type: "int", nullable: false),
-                    ObjectivePoints = table.Column<int>(type: "int", nullable: false),
-                    ArmyPoints = table.Column<int>(type: "int", nullable: false),
-                    PointSize = table.Column<int>(type: "int", nullable: false),
-                    Rounds = table.Column<int>(type: "int", nullable: false),
-                    DefetedBy = table.Column<int>(type: "int", nullable: false),
-                    SystemID = table.Column<int>(type: "int", nullable: true),
-                    ArmyID = table.Column<int>(type: "int", nullable: true),
-                    ThemeID = table.Column<int>(type: "int", nullable: true),
-                    ScenarioName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    BattleResult = table.Column<int>(type: "int", nullable: false),
-                    Bye = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TournamentSoloGameResults", x => x.GameID);
-                    table.ForeignKey(
-                        name: "FK_TournamentSoloGameResults_Armies_ArmyID",
-                        column: x => x.ArmyID,
-                        principalTable: "Armies",
-                        principalColumn: "ArmyID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TournamentSoloGameResults_GameSystems_SystemID",
-                        column: x => x.SystemID,
-                        principalTable: "GameSystems",
-                        principalColumn: "SystemID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TournamentSoloGameResults_Players_PlayerID",
-                        column: x => x.PlayerID,
-                        principalTable: "Players",
-                        principalColumn: "PlayerID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TournamentSoloGameResults_Themes_ThemeID",
-                        column: x => x.ThemeID,
-                        principalTable: "Themes",
-                        principalColumn: "ThemeID",
-                        onDelete: ReferentialAction.Restrict);
-                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Armies_SystemID",
@@ -255,10 +163,7 @@ namespace RebeliaApp.Web.Migrations
                 table: "MapFormat",
                 column: "ScenarioID");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayerScore_GameID",
-                table: "PlayerScore",
-                column: "GameID");
+            
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scenario_SystemID",
@@ -270,25 +175,7 @@ namespace RebeliaApp.Web.Migrations
                 table: "Themes",
                 column: "ArmyID");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_TournamentSoloGameResults_ArmyID",
-                table: "TournamentSoloGameResults",
-                column: "ArmyID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TournamentSoloGameResults_PlayerID",
-                table: "TournamentSoloGameResults",
-                column: "PlayerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TournamentSoloGameResults_SystemID",
-                table: "TournamentSoloGameResults",
-                column: "SystemID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TournamentSoloGameResults_ThemeID",
-                table: "TournamentSoloGameResults",
-                column: "ThemeID");
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -300,16 +187,7 @@ namespace RebeliaApp.Web.Migrations
                 name: "MapFormat");
 
             migrationBuilder.DropTable(
-                name: "PlayerScore");
-
-            migrationBuilder.DropTable(
-                name: "TournamentSoloGameResults");
-
-            migrationBuilder.DropTable(
                 name: "Scenario");
-
-            migrationBuilder.DropTable(
-                name: "FriendlyGameResults");
 
             migrationBuilder.DropTable(
                 name: "Players");

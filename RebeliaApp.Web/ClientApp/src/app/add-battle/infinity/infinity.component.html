@@ -1,9 +1,10 @@
 ﻿<h1 class="text-center">Zapisywanie bitwy</h1>
-    <div class="row conainer addBattleWrapper">
+<div *ngIf="!spinnerModel.armies && !spinnerModel.scenarios && !spinnerModel.players" class=""><spinner></spinner></div>
+    <div *ngIf="spinnerModel.armies && spinnerModel.scenarios && spinnerModel.players" class="row conainer addBattleWrapper">
         <div class="systemWrapper col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3 p-3 container">
             <div class="row">
                 <div class="col-6">
-                    <h4>Format</h4>
+                    <h4 class="header">Format</h4>
                     <select type="number" name="army" [(ngModel)]="battleResult.pointFormat" (change)="UpdateScenario(battleResult.scenarioID)" class="systemFont col-sm-12 col-12">
                         <option type="number" value="150">150</option>
                         <option type="number" value="200">200</option>
@@ -12,13 +13,13 @@
                     </select>
                 </div>
                 <div class="col-6">
-                    <h4>Rundy</h4>
+                    <h4 class="header">Rundy</h4>
                     <input type="number" min="1" max="3" id="roundInput" [(ngModel)]="battleResult.rounds" class="labelCount text-center" />
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h4>Scenariusz</h4>
+                    <h4 class="header">Scenariusz</h4>
                     <select name="army" [(ngModel)]="battleResult.scenarioID" (change)="UpdateScenario(battleResult.scenarioID)" class="col col-sm-12 col-12">
                         <option value="0">---</option>
                         <option *ngFor="let scenario of scenarios" [value]="scenario.scenarioID">{{scenario.scenarioName}}</option>
@@ -33,7 +34,7 @@
                 <div class="defeatFlagSection col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 </div>
                 <div *ngIf="false" class="calculatePointsWrapper col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <h4>Dodatkowe</h4>
+                    <h4 class="header">Dodatkowe</h4>
                     <div class="casterKillBtn btn col-6"></div>
                     <div class="deathClockBtn btn col-6"></div>
                 </div>
@@ -43,10 +44,10 @@
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col- playerScoreWrapper">
             <div class="playerWrapper container mb-3 p-3 col-sm-12 col-12">
                 <div class="playerSection text-center">
-                    <h2>{{playerScore.player1.playerName}}</h2>
+                    <h2 class="header">{{playerScore.player1.playerName}}</h2>
                 </div>
                 <div class="row">
-                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3">
                         <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': armyImg.player1 }">
                             <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': themeImg.player1 }"></div>
                         </div>
@@ -79,11 +80,17 @@
                 </div>
             </div>
             <div class="playerWrapper container  p-3 col-sm-12 col-12">
+                <p>Wybierz przeciwnika:</p>
                 <div class="playerSection text-center">
-                    <h2>{{playerScore.player2.playerName}}</h2>
+
+                    <select name="army" class="col col-sm-12 col-12">
+                        <option value="0">---</option>
+
+                        <option *ngFor="let player of playersList" [value]="player.playerID">{{player.firstName + ' "' + player.nick + '" ' + player.lastName}}</option>
+                    </select>
                 </div>
                 <div class="row">
-                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3 ">
                         <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': armyImg.player2 }">
                             <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': themeImg.player2 }"></div>
                         </div>
@@ -116,9 +123,7 @@
                 </div>
 
             </div>
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <button class="" (click)="SubmitResult()">Wyślij wynik</button>
-            </div>
+                <button  class="activeBtn col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 float-right mt-3">Wyślij wynik</button>
 
         </div>
     </div>
