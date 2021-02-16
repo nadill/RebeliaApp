@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using RebeliaApp.Web.Dto.InfinityService.Request;
 using RebeliaApp.Web.Dto.InfinityService.Response;
 using RebeliaApp.Web.Model;
+using static RebeliaApp.Web.Model.Enums;
 
 namespace RebeliaApp.Web.Services
 {
-    public class InfinityService : IInfinityService, IBattleService
+    public class InfinityService : IInfinityService
     {
         RebeliaDBContext dbContext;
         IMapper mapper;
@@ -45,8 +46,13 @@ namespace RebeliaApp.Web.Services
         {
             var requestMapper = mapper.Map<FriendlyGameResult>(request);
             var response = await dbContext.FriendlyGameResults.AddAsync(requestMapper);
-            var responseMapped = mapper.Map<FriendlyGameResultResponse>(response);
+            var responseMapped = new FriendlyGameResultResponse {
+                Success = true,
+                ResponseCode = ResponseCode.SUCCESS,
+                Header = "Zapis dodany do bazy",
+            };
 
+            dbContext.SaveChanges();
             return responseMapped;
             // test
 

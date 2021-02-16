@@ -77,9 +77,6 @@ namespace RebeliaApp.Web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BattleResult")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -200,6 +197,9 @@ namespace RebeliaApp.Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ArmyPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BattleResult")
                         .HasColumnType("int");
 
                     b.Property<int?>("CasterID")

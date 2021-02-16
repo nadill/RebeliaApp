@@ -1,8 +1,12 @@
+import { WinCondition, BattleResult} from "./Enums";
+
 export class PlayerGameScore {
   playerID: number;
-  playerName: string;
   armyID: number;
-  themeID: number;
+  themeID: number | null;
+  casterID: number | null;
+  winCondition: WinCondition;
+  battleResult: BattleResult;
   objectivePoints: number;
   armyPoints: number;
 }

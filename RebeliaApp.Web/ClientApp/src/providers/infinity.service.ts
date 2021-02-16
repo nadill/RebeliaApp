@@ -1,4 +1,7 @@
-import { Army, Scenario, FriendlyGameResult } from '../model/Shared';
+import { Army, Scenario } from '../model/Shared';
+import { FriendlyGameResultRequest } from '../model/Request/FriendlyGameResultRequest';
+import { FriendlyGameResultResponse } from '../model/Response/FriendlyGameResultResponse';
+
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -19,7 +22,8 @@ export class InfinityService {
     return this.http.get<Scenario[]>(this.baseUrl + 'Api/InfinityEndpoint/GetInfinityScenarios');
   }
 
-  public SumbitFriendlyGameResult(request: FriendlyGameResult) {
+  public SubmitFriendlyGameResult(request: FriendlyGameResultRequest): Observable<FriendlyGameResultResponse> {
+    return this.http.post<FriendlyGameResultResponse>(this.baseUrl + 'Api/InfinityEndpoint/SubmitFriendlyGameResult', request);
   }
 
 }

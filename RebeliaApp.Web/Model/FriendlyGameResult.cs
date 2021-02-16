@@ -14,7 +14,6 @@ namespace RebeliaApp.Web.Model
         [ForeignKey("GameID")]
         public virtual List<PlayerScore> PlayerList { get; set; }
         public int? WinnerID { get; set; }
-        public BattleResult BattleResult { get; set; }
         public int SystemID { get; set; }
         public int ScenarioID { get; set; }
         public int Rounds { get; set; }

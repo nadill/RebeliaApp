@@ -7,7 +7,7 @@ using RebeliaApp.Web.Model;
 
 namespace RebeliaApp.Web.Services
 {
-    public class WarmachineService : IWarmachineService, IBattleService
+    public class WarmachineService : IWarmachineService
     {
         public WarmachineService()
         {

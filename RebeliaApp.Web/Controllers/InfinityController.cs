@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RebeliaApp.Web.Dto.InfinityService.Request;
 using RebeliaApp.Web.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,6 +33,13 @@ namespace RebeliaApp.Web.Controllers
         public async Task<IActionResult> GetInfinityScenarios()
         {
             return Ok(await infinityService.GetInfinityScenarios());
+        }
+
+        [HttpPost("SubmitFriendlyGameResult")]
+        [Authorize]
+        public async Task<IActionResult> SubmitFriendlyGameResult(FriendlyGameResultRequest request)
+        {
+            return Ok(await infinityService.SubmitFriendlyGameResult(request));
         }
 
 

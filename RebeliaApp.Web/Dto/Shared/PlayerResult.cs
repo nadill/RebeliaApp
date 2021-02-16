@@ -10,6 +10,7 @@ namespace RebeliaApp.Web.Dto.Shared
         public int? ThemeID { get; set; }
         public int? CasterID { get; set; }
         public WinCondition WinCondition { get; set; }
+        public BattleResult BattleResult { get; set; }
         public int ObjectivePoints { get; set; }
         public int ArmyPoints { get; set; }
     }

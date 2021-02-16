@@ -15,5 +15,6 @@ namespace RebeliaApp.Web.Model
         public int ObjectivePoints { get; set; }
         public int ArmyPoints { get; set; }
         public WinCondition WinCondition { get; set; }
+        public BattleResult BattleResult { get; set; }
     }
 }

@@ -9,7 +9,6 @@ namespace RebeliaApp.Web.Dto.InfinityService.Request
     {
         public List<PlayerResult> PlayerList { get; set; }
         public int? WinnerID { get; set; }
-        public BattleResult BattleResult { get; set; }
         public DateTime Date { get; set; }
         public int SystemID { get; set; }
         public int ScenarioID { get; set; }

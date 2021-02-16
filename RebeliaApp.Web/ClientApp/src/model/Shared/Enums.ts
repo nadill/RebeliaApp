@@ -11,7 +11,8 @@ export enum BattleResult {
 }
 
 export enum WinCondition {
-  SCENARIO = 0,
-  CASTER_KILL = 1,
-  DEATH_CLOCK = 2
+  NONE = 0,
+  SCENARIO = 1,
+  CASTER_KILL = 2,
+  DEATH_CLOCK = 3
 }

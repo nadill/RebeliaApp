@@ -10,8 +10,8 @@ using RebeliaApp.Web.Model;
 namespace RebeliaApp.Web.Migrations
 {
     [DbContext(typeof(RebeliaDBContext))]
-    [Migration("20210214182622_GameResultReset")]
-    partial class GameResultReset
+    [Migration("20210215213856_ModifiedGameResults")]
+    partial class ModifiedGameResults
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,9 +78,6 @@ namespace RebeliaApp.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BattleResult")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -204,6 +201,9 @@ namespace RebeliaApp.Web.Migrations
                     b.Property<int>("ArmyPoints")
                         .HasColumnType("int");
 
+                    b.Property<int>("BattleResult")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CasterID")
                         .HasColumnType("int");
 
@@ -223,6 +223,8 @@ namespace RebeliaApp.Web.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PlayerScoreID");
+
+                    b.HasIndex("GameID");
 
                     b.ToTable("PlayerScores");
                 });
@@ -303,6 +305,15 @@ namespace RebeliaApp.Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RebeliaApp.Web.Model.PlayerScore", b =>
+                {
+                    b.HasOne("RebeliaApp.Web.Model.FriendlyGameResult", null)
+                        .WithMany("PlayerList")
+                        .HasForeignKey("GameID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RebeliaApp.Web.Model.Scenario", b =>
                 {
                     b.HasOne("RebeliaApp.Web.Model.GameSystem", null)
@@ -326,6 +337,11 @@ namespace RebeliaApp.Web.Migrations
                     b.Navigation("ArmyThemes");
 
                     b.Navigation("CasterList");
+                });
+
+            modelBuilder.Entity("RebeliaApp.Web.Model.FriendlyGameResult", b =>
+                {
+                    b.Navigation("PlayerList");
                 });
 
             modelBuilder.Entity("RebeliaApp.Web.Model.GameSystem", b =>

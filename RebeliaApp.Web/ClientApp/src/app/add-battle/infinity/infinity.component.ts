@@ -1,13 +1,18 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Army, Theme, PlayerGameScore, FriendlyGameResult, Scenario, MapFormat } from '../../../model/Shared';
+import { Army, Theme, PlayerGameScore, Scenario, MapFormat } from '../../../model/Shared';
+import { FriendlyGameResultRequest } from '../../../model/Request/FriendlyGameResultRequest';
+import { FriendlyGameResultResponse } from '../../../model/Response/FriendlyGameResultResponse';
+
 import { InfinityService } from '../../../providers/infinity.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from '../../../providers/account.service';
 import { UserAccount } from '../../../model/Shared/UserAccount';
 
 import { concat } from 'rxjs';
+import { BattleResult, WinCondition, ResponseCode } from '../../../model/Shared/Enums';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'add-infinity-component',
@@ -15,182 +20,245 @@ import { concat } from 'rxjs';
 })
 
 export class AddInfinityComponent implements OnInit {
-  public armies: Army[] = [];
-  public themes: Theme[] = [];
-  public scenarios: Scenario[] = [{ scenarioID: 0, scenarioName: "", scenarioFormats: [{ mapID: 0, smallFormat: "", mediumFormat: "", standardFormat: "" }] }];
-  public scenarioImgUrl: string = "none";
-  public playersList: UserAccount[] = [];
-  private spinnerModel = {
-    armies: false,
-    scenarios: false,
-    players: false
-  }
-  
-  public playerScore: {
-    player1: PlayerGameScore,
-    player2: PlayerGameScore
-  } = { 
-    player1: {
-      playerID: 0,
-      playerName: '',
-      armyID: 0,
-      themeID: 0,
-      objectivePoints: 0,
-      armyPoints: 0
-      },
-    player2: {
-      playerID: 0,
-      playerName: '',
-      armyID: 0,
-      themeID: 0,
-      objectivePoints: 0,
-      armyPoints: 0
+
+  dataModel: {
+    armies: Army[],
+    themes: Theme[],
+    scenarios: Scenario[],
+    players: UserAccount[]
+  } = {
+      armies: [],
+      themes: [],
+      scenarios: [],
+      players: []
     }
-  };
-  public battleResult: FriendlyGameResult = {
-    date: 0,
-    player1Result: null,
-    player2Result: null,
-    winnerID: 0,
+
+  requestModel: FriendlyGameResultRequest = {
+    date: new Date(),
+    playerList: [{
+      armyID: 0,
+      armyPoints: 0,
+      objectivePoints: 0,
+      themeID: 0,
+      casterID: null,
+      playerID: 0,
+      battleResult: BattleResult.DRAW,
+      winCondition: WinCondition.NONE
+    }, {
+      armyID: 0,
+      armyPoints: 0,
+      objectivePoints: 0,
+      themeID: 0,
+      casterID: null,
+      playerID: 0,
+      battleResult: BattleResult.DRAW,
+      winCondition: WinCondition.NONE
+      }],
     pointFormat: 150,
     rounds: 3,
-    gameSystemID: 0,
-    scenarioID: 0
-  };
-  public armyPool: {
-    player1: Army[],
-    player2: Army[]
+    scenarioID: 0,
+    systemID: 1,
+    winnerID: null
+  }
+
+  formModel: {
+    scenarioImgUrl: string,
+    validation: {
+      scenarioValid: boolean,
+      opponentValid: boolean
+    },
+    loggedUserName: string,
+    armyPool: {
+      player1: Army[],
+      player2: Army[]
+    },
+    availableThemes: {
+      player1: Theme[],
+      player2: Theme[]
+    },
+    armyImg: {
+      player1: string,
+      player2: string
+    },
+    themeImg: {
+      player1: string,
+      player2: string
+    },
+    inputFieldValid: {
+      roundInput: boolean,
+      objectiveInputP1: boolean,
+      armyInputP1: boolean,
+      objectiveInputP2: boolean,
+      armyInputP2: boolean
+    }
   } = {
-    player1: [],
-    player2: []
-  };
-  public availableThemes: {
-    player1: Theme[],
-    player2: Theme[]
-  } = {
-    player1: [],
-    player2: []
-  };
-  public armyImg: {
-    player1: string,
-    player2: string
-  } = {
-    player1: '',
-    player2: ''
-  };
-  public themeImg: {
-    player1: string,
-    player2: string
-  } = {
-    player1: '',
-    player2: ''
-  };
-  public formValid: boolean = true;
-  public inputFieldValid: {
-    roundInput: boolean,
-    objectiveInputP1: boolean,
-    armyInputP1: boolean,
-    objectiveInputP2: boolean,
-    armyInputP2: boolean
-  } = {
-    roundInput: true,
-    objectiveInputP1: true,
-    armyInputP1: true,
-    objectiveInputP2: true,
-    armyInputP2: true
-  };
+      scenarioImgUrl: '',
+      validation: {
+        scenarioValid: false,
+        opponentValid: false
+      },
+      loggedUserName: '',
+      armyPool: {
+        player1: [],
+        player2: []
+      },
+      availableThemes: {
+        player1: [],
+        player2: []
+      },
+      armyImg: {
+        player1: '',
+        player2: ''
+      },
+      themeImg: {
+        player1: '',
+        player2: ''
+      },
+      inputFieldValid: {
+        roundInput: true,
+        objectiveInputP1: true,
+        armyInputP1: true,
+        objectiveInputP2: true,
+        armyInputP2: false
+      }
+
+    }
+  
+  spinnerModel = {
+    armiesLoaded: false,
+    scenariosLoaded: false,
+    playersLoaded: false,
+    submitLoaded: true
+  }
+  
+  public battleResult: FriendlyGameResultRequest;
 
 
-  constructor(private infinityService: InfinityService, private accountService: AccountService) {
-
+  constructor(private infinityService: InfinityService, private accountService: AccountService, private router: Router) {
   }
 
   ngOnInit() {
+    // Load Armies and Themes to models 
     this.infinityService.GetInfinityArmies().subscribe(result => {
-      this.armies = result;
-      this.armies.forEach(army => {
-        this.themes = this.themes.concat(army.armyThemes);
+      this.dataModel.armies = this.dataModel.armies.concat(result);
+
+      this.dataModel.armies.forEach(army => {
+        this.dataModel.themes = this.dataModel.themes.concat(army.armyThemes);
       });
 
-      this.armyPool.player1 = this.armies;
-      this.armyPool.player2 = this.armies;
+      this.formModel.armyPool.player1 = this.formModel.armyPool.player1.concat(this.dataModel.armies);
+      this.formModel.armyPool.player2 = this.formModel.armyPool.player2.concat(this.dataModel.armies);
 
-      this.availableThemes.player1 = this.themes;
-      this.availableThemes.player2 = this.themes;
+      this.formModel.availableThemes.player1 = this.formModel.availableThemes.player1.concat(this.dataModel.themes);
+      this.formModel.availableThemes.player2 = this.formModel.availableThemes.player2.concat(this.dataModel.themes);
 
-      this.armyImg.player1 = "url(/assets/infinity-icons/" + this.armies[0].armyImage + ".svg)";
-      this.armyImg.player2 = "url(/assets/infinity-icons/" + this.armies[0].armyImage + ".svg)";
+      this.formModel.armyImg.player1 = "url(/assets/infinity-icons/" + this.dataModel.armies[0].armyImage + ".svg)";
+      this.formModel.armyImg.player2 = "url(/assets/infinity-icons/" + this.dataModel.armies[0].armyImage + ".svg)";
 
-      this.themeImg.player1 = "none";
-      this.themeImg.player2 = "none";
+      this.formModel.themeImg.player1 = "none";
+      this.formModel.themeImg.player2 = "none";
 
-      this.ArmyChanged(this.armies[0].armyID, "player1");
-      this.ArmyChanged(this.armies[0].armyID, "player2");
+      this.ArmyChanged(this.dataModel.armies[0].armyID, "player1", 0);
+      this.ArmyChanged(this.dataModel.armies[0].armyID, "player2", 1);
 
-      this.spinnerModel.armies = true;
+      this.spinnerModel.armiesLoaded = true;
     });
 
+    // Load Scenarios to models/
     this.infinityService.GetInfinityScenarios().subscribe(result => {
-      this.scenarios = result;
-      this.spinnerModel.scenarios = true;
+      this.dataModel.scenarios = this.dataModel.scenarios.concat(result);
+      this.spinnerModel.scenariosLoaded = true;
     }, error => console.error(error));
-    let user = this.accountService.GetUserTokenInfo();
 
-    this.playerScore.player1.playerID = user.playerID;
-    this.playerScore.player1.playerName = user.firstName + ' "' + user.nick + '" ' + user.lastName;
-
+    // Load Users to models/
     this.accountService.GetAllAccountsExceptLoggedUser().subscribe(users => {
-      this.playersList = this.playersList.concat(users.accountList);
-      this.spinnerModel.players = true;
+      this.dataModel.players = this.dataModel.players.concat(users.accountList);
+      this.spinnerModel.playersLoaded = true;
     });
+
+    // Load logged user data/
+    let user = this.accountService.GetUserTokenInfo();
+    this.formModel.loggedUserName = user.firstName + ' "' + user.nick + '" ' + user.lastName;
+    this.requestModel.playerList[0].playerID = Number(user.playerID);
 
   }
 
-  private ArmyChanged(selectedID:number, player: string): void {
-    this.themeImg[player] = 'none';
-    this.availableThemes[player] = this.themes.filter(x => x.armyID == selectedID);
-    this.armyImg[player] = "url(/assets/infinity-icons/" + this.armies.find(a => a.armyID == selectedID).armyImage + ".svg)";
-    this.playerScore[player].armyID = selectedID;
+  private ArmyChanged(selectedID:number, player: string, num:number): void {
+    this.formModel.themeImg[player] = 'none';
+    this.formModel.availableThemes[player] = this.dataModel.themes.filter(x => x.armyID == selectedID);
+    this.formModel.armyImg[player] = "url(/assets/infinity-icons/" + this.dataModel.armies.find(a => a.armyID == selectedID).armyImage + ".svg)";
+    this.requestModel.playerList[num].armyID = Number(selectedID);
   }
   private UpdateScenario(scenarioId: number) {
-    let scenario: Scenario[] = this.scenarios.filter(x => x.scenarioID == scenarioId);
-    let baseUrl = "/assets/infinity-scenarios/";
-    let imgUrl: string;
-    let pointFormat: number = Number(this.battleResult.pointFormat);
-    switch (pointFormat) {
-      case 150: {
-        imgUrl = scenario[0].scenarioFormats[0].smallFormat;
-        break;
+    if (Number(scenarioId) != 0) {
+      this.requestModel.scenarioID = Number(scenarioId);
+      let scenario: Scenario[] = this.dataModel.scenarios.filter(x => x.scenarioID == scenarioId);
+      let baseUrl = "/assets/infinity-scenarios/";
+      let imgUrl: string;
+      this.requestModel.pointFormat = Number(this.requestModel.pointFormat);
+      switch (this.requestModel.pointFormat) {
+        case 150: {
+          imgUrl = scenario[0].scenarioFormats[0].smallFormat;
+          break;
+        }
+        case 300: {
+          imgUrl = scenario[0].scenarioFormats[0].standardFormat;
+          break;
+        }
+        default: {
+          imgUrl = scenario[0].scenarioFormats[0].mediumFormat;
+          break;
+        }
       }
-      case 300: {
-        imgUrl = scenario[0].scenarioFormats[0].standardFormat;
-        break;
-      }
-      default: {
-        imgUrl = scenario[0].scenarioFormats[0].mediumFormat;
-        break;
-      }
+      this.formModel.scenarioImgUrl = baseUrl + imgUrl + '.png';
     }
-    this.scenarioImgUrl = baseUrl + imgUrl + '.png';
+    this.formModel.validation.scenarioValid = (Number(scenarioId) !== 0) ? true : false;
   }
 
-  private ThemeChanged(selectedID: number, player: string): void {
-    this.themeImg[player] = (selectedID == 0) ? 'none' : "url(/assets/infinity-icons/" + this.themes.find(t => t.themeID == selectedID).themeImage + ".svg)";
-    this.playerScore[player].themeID = selectedID;
+  private ThemeChanged(selectedID: number, player: string, num: number): void {
+    this.formModel.themeImg[player] = (selectedID == 0) ? 'none' : "url(/assets/infinity-icons/" + this.dataModel.themes.find(t => t.themeID == selectedID).themeImage + ".svg)";
+    this.requestModel.playerList[num].themeID = Number(selectedID);
+  }
+  private OpponentChanged(selectedID: number): void {
+    this.requestModel.playerList[1].playerID = Number(selectedID);
+    this.formModel.validation.opponentValid = (Number(selectedID) != 0) ? true : false;
   }
 
   private SubmitResult() {
-    if (this.playerScore.player1.objectivePoints > this.playerScore.player2.objectivePoints) {
-      this.battleResult.winnerID = this.playerScore.player1.playerID;
-    } else if (this.playerScore.player1.objectivePoints < this.playerScore.player2.objectivePoints) {
-      this.battleResult.winnerID = this.playerScore.player2.playerID;
+    if (this.requestModel.playerList[0].objectivePoints > this.requestModel.playerList[1].objectivePoints) {
+      // Player1 wins
+      this.requestModel.winnerID = this.requestModel.playerList[0].playerID;
+      this.requestModel.playerList[0].winCondition = WinCondition.SCENARIO;
+      this.requestModel.playerList[1].winCondition = WinCondition.NONE;
+      this.requestModel.playerList[0].battleResult = BattleResult.WON;
+      this.requestModel.playerList[1].battleResult = BattleResult.LOST;
+
+    } else if (this.requestModel.playerList[0].objectivePoints < this.requestModel.playerList[1].objectivePoints) {
+      // Player2 wins
+      this.requestModel.winnerID = this.requestModel.playerList[1].playerID;
+      this.requestModel.playerList[1].winCondition = WinCondition.SCENARIO;
+      this.requestModel.playerList[0].winCondition = WinCondition.NONE;
+      this.requestModel.playerList[1].battleResult = BattleResult.WON;
+      this.requestModel.playerList[0].battleResult = BattleResult.LOST;
+
     } else {
-      this.battleResult.winnerID = 0;
+      // Draw /
+      this.requestModel.winnerID = null;
+      this.requestModel.playerList[1].winCondition = WinCondition.SCENARIO;
+      this.requestModel.playerList[0].winCondition = WinCondition.SCENARIO;
+      this.requestModel.playerList[1].battleResult = BattleResult.DRAW;
+      this.requestModel.playerList[0].battleResult = BattleResult.DRAW;
     }
-    this.battleResult.date = Date.now();
-    this.battleResult.gameSystemID = 1;
-    this.battleResult.player1Result = this.playerScore.player1;
-    this.battleResult.player2Result = this.playerScore.player2;
+
+    this.spinnerModel.submitLoaded = false;
+    this.infinityService.SubmitFriendlyGameResult(this.requestModel).subscribe(result => {
+      if (result.responseCode == ResponseCode.SUCCESS) {
+        this.router.navigateByUrl("/");
+      } else {
+        console.log(result.responseMessage);
+      }
+      this.spinnerModel.submitLoaded = true;
+    });
 
    
   }
