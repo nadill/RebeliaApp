@@ -11,35 +11,36 @@ using RebeliaApp.Web.Services;
 
 namespace RebeliaApp.Web.Controllers
 {
-    [Route("Api/InfinityEndpoint")]
+    [Route("Api/WarmachineEndpoint")]
     [ApiController]
-    public class InfinityController : ControllerBase
+    public class WarmachineController : ControllerBase
     {
-        IInfinityService infinityService;
-        
-        public InfinityController(IInfinityService _infinityService) {
-            infinityService = _infinityService;
+        IWarmachineService warmachineService;
+
+
+        public WarmachineController(IWarmachineService _warmachineService)
+        {
+            warmachineService = _warmachineService;
         }
 
-        [HttpGet("GetInfinityArmies")]
+        [HttpGet("GetWarmachineArmies")]
         [Authorize]
-        public async Task<IActionResult> GetInfinityArmies()
-        {
-            return Ok(await infinityService.GetArmies());
+        public async Task<IActionResult> GetWarmachineArmies() {
+            return Ok(await warmachineService.GetArmies());
         }
 
-        [HttpGet("GetInfinityScenarios")]
+        [HttpGet("GetWarmachineScenarios")]
         [Authorize]
-        public async Task<IActionResult> GetInfinityScenarios()
+        public async Task<IActionResult> GetWarmachineScenarios()
         {
-            return Ok(await infinityService.GetScenarios());
+            return Ok(await warmachineService.GetScenarios());
         }
 
         [HttpPost("SubmitFriendlyGameResult")]
         [Authorize]
         public async Task<IActionResult> SubmitFriendlyGameResult(FriendlyGameResultRequest request)
         {
-            return Ok(await infinityService.SubmitFriendlyGameResult(request));
+            return Ok(await warmachineService.SubmitFriendlyGameResult(request));
         }
 
 

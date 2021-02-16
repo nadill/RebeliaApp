@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using RebeliaApp.Web.Dto.Shared;
-using static RebeliaApp.Web.Model.Enums;
 
-namespace RebeliaApp.Web.Dto.InfinityService.Request
+namespace RebeliaApp.Web.Dto.Shared
 {
     public class FriendlyGameResultRequest
     {

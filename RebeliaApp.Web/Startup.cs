@@ -33,6 +33,7 @@ namespace RebeliaApp.Web
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IInfinityService, InfinityService>();
+            services.AddScoped<IWarmachineService, WarmachineService>();
 
             // AutoMapper for DTO mapping
             services.AddAutoMapper(typeof(Startup));
