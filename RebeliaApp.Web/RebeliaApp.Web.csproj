@@ -69,6 +69,7 @@
     <Folder Include="Dto\InfinityService\Response\" />
     <Folder Include="ClientApp\src\app\components\" />
     <Folder Include="ClientApp\src\app\components\spinner\" />
+    <Folder Include="ClientApp\src\app\add-battle\warmachine\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="angular-material-app\.editorconfig" />

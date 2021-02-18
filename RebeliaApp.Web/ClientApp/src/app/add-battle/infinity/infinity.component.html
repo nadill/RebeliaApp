@@ -1,119 +1,123 @@
-﻿<h1 class="text-center">Zapisywanie bitwy</h1>
-<div *ngIf="!spinnerModel.armiesLoaded && !spinnerModel.scenariosLoaded && !spinnerModel.playersLoaded" class=""><spinner></spinner></div>
-    <div *ngIf="spinnerModel.armiesLoaded && spinnerModel.scenariosLoaded && spinnerModel.playersLoaded" class="row conainer addBattleWrapper">
-        <div class="systemWrapper col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3 p-3 container">
-            <div class="row">
-                <div class="col-6">
-                    <h4 class="header">Format</h4>
-                    <select type="number" name="army" [(ngModel)]="requestModel.pointFormat" (change)="UpdateScenario(requestModel.scenarioID)" class="systemFont col-sm-12 col-12">
-                        <option type="number" value="150">150</option>
-                        <option type="number" value="200">200</option>
-                        <option type="number" value="250">250</option>
-                        <option type="number" value="300">300</option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <h4 class="header">Rundy</h4>
-                    <input type="number" min="1" max="3" id="roundInput" [(ngModel)]="requestModel.rounds" class="labelCount text-center" />
-                </div>
+﻿<h1 class="page-header">Zapisz bitwę Infinity</h1>
+<div class="" *ngIf="!spinnerModel.armiesLoaded && !spinnerModel.scenariosLoaded && !spinnerModel.playersLoaded" class=""><spinner></spinner></div>
+<div *ngIf="spinnerModel.armiesLoaded && spinnerModel.scenariosLoaded && spinnerModel.playersLoaded" class="row conainer addBattleWrapper infinity-component">
+    <div class="systemWrapper col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3 p-3 container">
+        <div class="row">
+            <div class="col-6">
+                <h4 class="header">Format</h4>
+                <select type="number" name="army" [(ngModel)]="requestModel.pointFormat" (change)="UpdateScenario(requestModel.scenarioID)" class="systemFont col-sm-12 col-12">
+                    <option type="number" value="150">150</option>
+                    <option type="number" value="200">200</option>
+                    <option type="number" value="250">250</option>
+                    <option type="number" value="300">300</option>
+                </select>
             </div>
-            <div class="row">
-                <div class="col">
-                    <h4 class="header">Scenariusz</h4>
-                    <select name="army" [(ngModel)]="requestModel.scenarioID" (change)="UpdateScenario(requestModel.scenarioID)" class="col col-sm-12 col-12">
-                        <option value="0">---</option>
-                        <option *ngFor="let scenario of dataModel.scenarios" [value]="scenario.scenarioID">{{scenario.scenarioName}}</option>
-                    </select>
-                    <div class="mt-3" *ngIf="requestModel.scenarioID != 0" style="border-radius:10px; overflow:hidden; max-height:600px">
-                        <img src="{{formModel.scenarioImgUrl}}" style="width:100%;"/>
-                    </div>
-                </div>
+            <div class="col-6">
+                <h4 class="header">Rundy</h4>
+                <input type="number" min="1" max="3" id="roundInput" [(ngModel)]="requestModel.rounds" class="labelCount text-center" />
             </div>
-            <br />
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col- playerScoreWrapper">
-            <div class="playerWrapper container mb-3 p-3 col-sm-12 col-12">
-                <div class="playerSection text-center">
-                    <h2 class="header">{{formModel.loggedUserName}}</h2>
-                </div>
-                <div class="row">
-                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3">
-                        <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': formModel.armyImg.player1 }">
-                            <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': formModel.themeImg.player1 }"></div>
-                        </div>
-
-                    </div>
-                    <div class="armySection col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <p>Wybierz armię:</p>
-                        <select name="army" (change)="ArmyChanged($event.target.value, 'player1', 0)" class="col col-sm-12 col-12">
-                            <option *ngFor="let army of formModel.armyPool.player1" [value]="army.armyID">{{army.armyName}}</option>
-                        </select>
-                        <p>Wybierz sektorial:</p>
-                        <select name="theme" class="col col-sm-12 col-12" (change)="ThemeChanged($event.target.value, 'player1', 0)">
-                            <option value="0">---</option>
-                            <option *ngFor="let theme of formModel.availableThemes.player1" value="{{theme.themeID}}">{{theme.themeName}}</option>
-                        </select>
-                    </div>
-
-                    <div class="resultSection col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
-                                <p class="calculateLabel text-center">Objective Points</p>
-                                <input id="objectiveInputP1" type="number" min="0" max="10" class="labelCount text-center" [(ngModel)]="requestModel.playerList[0].objectivePoints" />
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
-                                <p class="calculateLabel text-center">Army Points</p>
-                                <input id="armyInputP1" type="number" min="0" max="{{requestModel.pointFormat}}" [(ngModel)]="requestModel.playerList[0].armyPoints" class="labelCount text-center" />
-                            </div>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="header">Misje ITS12</h4>
+                <select name="army" [ngClass]="{'invalid': requestModel.scenarioID == 0}" [(ngModel)]="requestModel.scenarioID" (change)="UpdateScenario(requestModel.scenarioID)" class="col col-sm-12 col-12">
+                    <option value="0">---</option>
+                    <option *ngFor="let scenario of dataModel.scenarios" [value]="scenario.scenarioID">{{scenario.scenarioName}}</option>
+                </select>
+                <div class="mt-3" *ngIf="requestModel.scenarioID != 0" style="border-radius:10px; overflow:hidden; max-height:600px">
+                    <img src="{{formModel.scenarioImgUrl}}" style="width:100%;" />
                 </div>
             </div>
-            <div class="playerWrapper container  p-3 col-sm-12 col-12">
-                <p>Wybierz przeciwnika:</p>
-                <div class="playerSection text-center">
-                    <select name="army" class="col col-sm-12 col-12" (change)="OpponentChanged($event.target.value)">
-                        <option value="0">---</option>
-                        <option *ngFor="let player of dataModel.players" [value]="player.playerID">{{player.firstName + ' "' + player.nick + '" ' + player.lastName}}</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3 ">
-                        <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': formModel.armyImg.player2 }">
-                            <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': formModel.themeImg.player2 }"></div>
-                        </div>
-
-                    </div>
-                    <div class="armySection col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <p>Wybierz armię:</p>
-                        <select name="army" (change)="ArmyChanged($event.target.value, 'player2', 1)" class="col col-sm-12 col-12">
-                            <option *ngFor="let army of formModel.armyPool.player2" [value]="army.armyID">{{army.armyName}}</option>
-                        </select>
-                        <p>Wybierz sectorial:</p>
-                        <select name="theme" class="col col-sm-12 col-12" (change)="ThemeChanged($event.target.value, 'player2', 1)">
-                            <option value="0">---</option>
-                            <option *ngFor="let theme of formModel.availableThemes.player2" value="{{theme.themeID}}">{{theme.themeName}}</option>
-                        </select>
-                    </div>
-
-                    <div class="resultSection col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
-                                <p class="calculateLabel text-center">Objective Points</p>
-                                <input id="objectiveInputP2" type="number" min="0" max="10" class="labelCount text-center" [(ngModel)]="requestModel.playerList[1].objectivePoints" />
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
-                                <p class="calculateLabel text-center">Army Points</p>
-                                <input id="armyInputP2" type="number" min="0" max="{{requestModel.pointFormat}}" [(ngModel)]="requestModel.playerList[1].armyPoints" class="labelCount text-center" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div *ngIf="!spinnerModel.submitLoaded" class="mt-3 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 float-right"><spinner></spinner></div>
-
-            <button *ngIf="spinnerModel.submitLoaded" [disabled]="!formModel.validation.scenarioValid || !formModel.validation.opponentValid" [ngClass]="{'activeBtn' : (formModel.validation.scenarioValid && formModel.validation.opponentValid), 'inactiveBtn' : (!formModel.validation.scenarioValid || !formModel.validation.opponentValid)}" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 float-right mt-3" (click)="SubmitResult()">Wyślij wynik</button>
-
         </div>
+        <br />
     </div>
+    <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col- playerScoreWrapper">
+        <div class="playerWrapper container mb-3 p-3 col-sm-12 col-12">
+            <div class="playerSection text-center">
+                <h2 class="header">{{formModel.loggedUserName}}</h2>
+            </div>
+            <div class="row">
+                <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3">
+                    <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': formModel.armyImg.player1 }">
+                        <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': formModel.themeImg.player1 }"></div>
+                    </div>
+
+                </div>
+                <div class="armySection col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <p>Wybierz armię:</p>
+                    <select name="army" [ngClass]="{'invalid': requestModel.playerList[0].armyID == 0}" (change)="ArmyChanged($event.target.value, 'player1', 0)" class="col col-sm-12 col-12">
+                        <option value="0">---</option>
+                        <option *ngFor="let army of formModel.armyPool.player1" [value]="army.armyID">{{army.armyName}}</option>
+                    </select>
+                    <p>Wybierz sektorial:</p>
+                    <select name="theme" class="col col-sm-12 col-12" (change)="ThemeChanged($event.target.value, 'player1', 0)">
+                        <option value="0">---</option>
+                        <option *ngFor="let theme of formModel.availableThemes.player1" value="{{theme.themeID}}">{{theme.themeName}}</option>
+                    </select>
+                </div>
+
+                <div class="resultSection col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
+                            <p class="calculateLabel text-center">Objective Points</p>
+                            <input id="objectiveInputP1" type="number" min="0" max="10" class="labelCount text-center" [(ngModel)]="requestModel.playerList[0].objectivePoints" />
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
+                            <p class="calculateLabel text-center">Army Points</p>
+                            <input id="armyInputP1" type="number" min="0" max="{{requestModel.pointFormat}}" [(ngModel)]="requestModel.playerList[0].armyPoints" class="labelCount text-center" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="playerWrapper container  p-3 col-sm-12 col-12">
+            <p>Wybierz przeciwnika:</p>
+            <div class="playerSection text-center">
+                <select name="army" [ngClass]="{'invalid': requestModel.playerList[1].playerID == 0}" class="col col-sm-12 col-12" (change)="OpponentChanged($event.target.value)">
+                    <option value="0">---</option>
+                    <option *ngFor="let player of dataModel.players" [value]="player.playerID">{{player.firstName + ' "' + player.nick + '" ' + player.lastName}}</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="armyImageWrapper col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-3 ">
+                    <div class="biggerArmyIco position-relative" [ngStyle]="{'background-image': formModel.armyImg.player2 }">
+                        <div class="smallerArmyIco position-absolute absolute" [ngStyle]="{'background-image': formModel.themeImg.player2 }"></div>
+                    </div>
+
+                </div>
+                <div class="armySection col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <p>Wybierz armię:</p>
+                    <select name="army" [ngClass]="{'invalid': requestModel.playerList[1].armyID == 0}" (change)="ArmyChanged($event.target.value, 'player2', 1)" class="col col-sm-12 col-12">
+                        <option value="0">---</option>
+                        <option *ngFor="let army of formModel.armyPool.player2" [value]="army.armyID">{{army.armyName}}</option>
+                    </select>
+                    <p>Wybierz sectorial:</p>
+                    <select name="theme" class="col col-sm-12 col-12" (change)="ThemeChanged($event.target.value, 'player2', 1)">
+                        <option value="0">---</option>
+                        <option *ngFor="let theme of formModel.availableThemes.player2" value="{{theme.themeID}}">{{theme.themeName}}</option>
+                    </select>
+                </div>
+
+                <div class="resultSection col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
+                            <p class="calculateLabel text-center">Objective Points</p>
+                            <input id="objectiveInputP2" type="number" min="0" max="10" class="labelCount text-center" [(ngModel)]="requestModel.playerList[1].objectivePoints" />
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-6 col-md-6">
+                            <p class="calculateLabel text-center">Army Points</p>
+                            <input id="armyInputP2" type="number" min="0" max="{{requestModel.pointFormat}}" [(ngModel)]="requestModel.playerList[1].armyPoints" class="labelCount text-center" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+<div *ngIf="!spinnerModel.submitLoaded" class="mt-3 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 float-right"><spinner></spinner></div>
+
+<button *ngIf="spinnerModel.submitLoaded" [disabled]="!IsFormValid()" [ngClass]="{'activeBtn' : IsFormValid(), 'inactiveBtn' : !IsFormValid()}" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 float-right mt-3 float-right" (click)="SubmitResult()">Wyślij wynik</button>

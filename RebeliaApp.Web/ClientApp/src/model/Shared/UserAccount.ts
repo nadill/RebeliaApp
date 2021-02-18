@@ -3,4 +3,5 @@ export class UserAccount {
   firstName: string;
   lastName: string;
   nick: string;
+  fullName: string;
 }

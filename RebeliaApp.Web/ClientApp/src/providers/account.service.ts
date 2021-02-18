@@ -21,14 +21,19 @@ export class AccountService {
       PlayerID: number,
       FirstName: string,
       LastName: string,
-      Nick:string
+      Nick: string
     } = jwt_decode(token);
     let user: UserAccount = {
       firstName: tokenData.FirstName,
       lastName: tokenData.LastName,
       nick: tokenData.Nick,
-      playerID: tokenData.PlayerID
+      playerID: tokenData.PlayerID,
+      fullName:''
     };
+    user.fullName = user.nick !== null ?
+      user.firstName + ' "' + user.nick + '" ' + user.lastName :
+      user.firstName + ' ' + user.lastName;
+
     return user;
   }
 

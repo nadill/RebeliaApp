@@ -10,14 +10,16 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { AddBattleComponent } from './add-battle/add-battle.component';
 import { AddInfinityComponent } from './add-battle/infinity/infinity.component';
+import { AddWarmachineComponent } from './add-battle/warmachine/warmachine.component';
 import { LoginComponent } from './login/login.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
 import { log } from 'util';
 
-// Service Providers/
+// Service Providers
 import { AccountService } from '../providers/account.service';
 import { InfinityService } from '../providers/infinity.service';
+import { WarmachineService } from '../providers/warmachine.service';
 import { AuthService } from '../providers/auth.service';
 
 export function tokenGetter() {
@@ -32,6 +34,7 @@ export function tokenGetter() {
     LoginComponent,
     AddBattleComponent,
     AddInfinityComponent,
+    AddWarmachineComponent,
     SpinnerComponent
 
   ],
@@ -42,7 +45,9 @@ export function tokenGetter() {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthService] },
       { path: 'add-battle', component: AddBattleComponent, canActivate: [AuthService]},
-      { path: 'add-infinity', component: AddInfinityComponent, canActivate: [AuthService]},
+      { path: 'add-infinity', component: AddInfinityComponent, canActivate: [AuthService] },
+      { path: 'add-warmachine', component: AddWarmachineComponent, canActivate: [AuthService] },
+
       { path: 'login', component: LoginComponent },
     ]),
     JwtModule.forRoot({
@@ -54,7 +59,7 @@ export function tokenGetter() {
     })
 
   ],
-  providers: [AccountService, InfinityService, AuthService],
+  providers: [AccountService, InfinityService, WarmachineService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

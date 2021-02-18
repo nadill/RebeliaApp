@@ -65,7 +65,8 @@ export class AddInfinityComponent implements OnInit {
     scenarioImgUrl: string,
     validation: {
       scenarioValid: boolean,
-      opponentValid: boolean
+      opponentValid: boolean,
+      armyValid: boolean
     },
     loggedUserName: string,
     armyPool: {
@@ -95,7 +96,8 @@ export class AddInfinityComponent implements OnInit {
       scenarioImgUrl: '',
       validation: {
         scenarioValid: false,
-        opponentValid: false
+        opponentValid: false,
+        armyValid: false
       },
       loggedUserName: '',
       armyPool: {
@@ -119,7 +121,7 @@ export class AddInfinityComponent implements OnInit {
         objectiveInputP1: true,
         armyInputP1: true,
         objectiveInputP2: true,
-        armyInputP2: false
+        armyInputP2: false 
       }
 
     }
@@ -140,7 +142,9 @@ export class AddInfinityComponent implements OnInit {
   ngOnInit() {
     // Load Armies and Themes to models 
     this.infinityService.GetInfinityArmies().subscribe(result => {
-      this.dataModel.armies = this.dataModel.armies.concat(result);
+      this.dataModel.armies = this.dataModel.armies.concat(result).sort((a, b) => {
+        return a.armyName > b.armyName ? 1 : a.armyName < b.armyName ? -1 : 0;
+      });
 
       this.dataModel.armies.forEach(army => {
         this.dataModel.themes = this.dataModel.themes.concat(army.armyThemes);
@@ -152,14 +156,11 @@ export class AddInfinityComponent implements OnInit {
       this.formModel.availableThemes.player1 = this.formModel.availableThemes.player1.concat(this.dataModel.themes);
       this.formModel.availableThemes.player2 = this.formModel.availableThemes.player2.concat(this.dataModel.themes);
 
-      this.formModel.armyImg.player1 = "url(/assets/infinity-icons/" + this.dataModel.armies[0].armyImage + ".svg)";
-      this.formModel.armyImg.player2 = "url(/assets/infinity-icons/" + this.dataModel.armies[0].armyImage + ".svg)";
-
       this.formModel.themeImg.player1 = "none";
       this.formModel.themeImg.player2 = "none";
 
-      this.ArmyChanged(this.dataModel.armies[0].armyID, "player1", 0);
-      this.ArmyChanged(this.dataModel.armies[0].armyID, "player2", 1);
+      this.ArmyChanged(0, "player1", 0);
+      this.ArmyChanged(0, "player2", 1);
 
       this.spinnerModel.armiesLoaded = true;
     });
@@ -186,8 +187,11 @@ export class AddInfinityComponent implements OnInit {
   private ArmyChanged(selectedID:number, player: string, num:number): void {
     this.formModel.themeImg[player] = 'none';
     this.formModel.availableThemes[player] = this.dataModel.themes.filter(x => x.armyID == selectedID);
-    this.formModel.armyImg[player] = "url(/assets/infinity-icons/" + this.dataModel.armies.find(a => a.armyID == selectedID).armyImage + ".svg)";
+    this.formModel.armyImg[player] = selectedID == 0 ?
+      "url(/assets/infinity-icons/infinity-placeholder.png)" :
+      "url(/assets/infinity-icons/" + this.dataModel.armies.find(a => a.armyID == selectedID).armyImage + ".svg)";
     this.requestModel.playerList[num].armyID = Number(selectedID);
+    this.formModel.validation.armyValid = this.requestModel.playerList[0].armyID != 0 && this.requestModel.playerList[1].armyID != 0 ? true : false;
   }
   private UpdateScenario(scenarioId: number) {
     if (Number(scenarioId) != 0) {
@@ -222,6 +226,9 @@ export class AddInfinityComponent implements OnInit {
   private OpponentChanged(selectedID: number): void {
     this.requestModel.playerList[1].playerID = Number(selectedID);
     this.formModel.validation.opponentValid = (Number(selectedID) != 0) ? true : false;
+  }
+  private IsFormValid(): boolean {
+    return this.formModel.validation.scenarioValid && this.formModel.validation.opponentValid && this.formModel.validation.armyValid;
   }
 
   private SubmitResult() {

@@ -12,7 +12,15 @@ h3, h4, h5, h6{
 margin-top:10px;
 text-align:center;
 }
-
+.p-0 {
+  padding:0px;
+}
+.mb-0 {
+margin-bottom: 0px !important;
+}
+.clear {
+  clear:both;
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -42,6 +50,15 @@ body {
 }
 .navbar {
 padding:0;
+}
+.page-header {
+  background: #434e5f;
+  text-align: center;
+  padding: 10px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 10px 10px #1c2129;
+  margin: 0 0 20px 0;
+  font-size: 20px;
 }
 .nav-menu {
   background: #000;
@@ -75,6 +92,10 @@ width:100%;
 padding:10px;
 }
 
+select:hover, input:hover {
+border-top: 1px solid #fff;
+cursor:pointer;
+}
 select, input,.calculatePointsWrapper .btn, input:focus {
   height: 40px;
   background: #556173;
@@ -84,8 +105,11 @@ select, input,.calculatePointsWrapper .btn, input:focus {
   border-radius: 0px 20px;
   outline-style:none;
 }
+.armySection select {
+  text-indent:0px;
+}
 select {
-  text-indent:20px;
+  text-indent: 20px;
 }
 select:hover {
     cursor:pointer;
@@ -147,55 +171,76 @@ input.labelCount {
     background: #541A1A !important;
 
   }
+select.invalid {
+  border: 1px solid #FFBB00;
+}
 .playerWrapper p, .opponentWrapper p {
 margin: 10px 0 0 0px;
 }
-div.deathClockBtn.btn {
-  background-image: url(/assets/deathclock.png) !important;
-  background-repeat: no-repeat;
-  background-color: #A0A09F;
-  background-position: center center;
-  background-size: contain;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-  min-width: 50px;
-  width:50%;
-  height: 60px;
-  margin: 0 0 0 0px;
-}
-div.casterKillBtn.btn {
-  background-image: url(/assets/casterkill.png) !important;
-  background-repeat: no-repeat;
-  background-color: #A0A09F;
-  background-position: center center;
-  background-size: contain;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-  min-width: 50px;
-  width: 50%;
-  height: 60px;
-  margin: 0 0px 0 0;
-}
-  div.casterKillBtn.btn:hover, div.deathClockBtn.btn:hover {
-    background-color: white;
-    border: solid 2px #00FBE8;
-  }
 
-.biggerArmyIco {
-  width: 100%;
-  height: 100%;
-  min-width: 100px;
-  min-height: 100px;
-  margin: 0 auto;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
+
 .smallerArmyIco {
   width: 50%;
   height: 50%;
   bottom: 0px;
   right: -20px;
   background-repeat: no-repeat;
+}
+.biggerArmyIco {
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
+  background-size: cover;
+  border-radius:100%;
+  margin:0 auto;
+}
+.infinity-component .smallerArmyIco {
+  width: 60px;
+  height: 60px;
+  bottom: 0px;
+  right: -20px;
+  background-repeat: no-repeat;
+}
+.warmachine-component .smallerArmyIco {
+  height: 100px;
+  width: 100px;
+  right: -75%;
+  bottom: 0px;
+  box-shadow: -10px 0 0px #434e5f;
+}
+
+.warmachine-component .armyImageWrapper.col-md-12 .biggerArmyIco {
+  position:relative;
+  left:-35px;
+}
+
+.checkbox {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #556173;
+  border-radius: 0px 10px;
+  position:relative;
+  top:5px;
+}
+.clickable {
+cursor: pointer;
+}
+.clickable:hover .checkbox {
+    border: 2px solid #fff;
+}
+  .clickable:hover .checkbox.checked {
+    border: none;
+    border-top: 1px solid #6ac576;
+  }
+
+.checkbox.checked {
+  border: none;
+  background: #43884c;
+  color: #fff;
+  padding: 15px;
+  text-transform: uppercase;
+  border-top: 1px solid #6ac576;
 }
 
  

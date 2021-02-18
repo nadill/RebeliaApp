@@ -21,7 +21,7 @@ namespace RebeliaApp.Web.Services
         }
 
         public async Task<List<Army>> GetArmies() {
-            List<Army> warmachineArmies = await dbContext.Armies.Where(s => s.SystemID == 2).Include(t => t.ArmyThemes).Include(c => c.CasterList).ToListAsync();
+            List<Army> warmachineArmies = await dbContext.Armies.Where(s => s.SystemID == 2).Include(t => t.ArmyThemes).Include(c => c.CasterList).AsSplitQuery().ToListAsync();
             return warmachineArmies;
         }
         public async Task<List<Scenario>> GetScenarios() {
@@ -41,7 +41,7 @@ namespace RebeliaApp.Web.Services
                 Header = "Zapis dodany do bazy",
             };
 
-            //dbContext.SaveChanges();
+            dbContext.SaveChanges();
             return responseMapped;
         }
 
